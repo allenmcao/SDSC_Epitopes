@@ -1,0 +1,18 @@
+Proteomes/Bacteria/
+Proteomes/Viruses/
+Epitopes/BcellSorted/
+Epitopes/SASorted/
+Epitopes/TcellBactBLAST/
+Epitopes/TcellBactSorted/
+Epitopes/TcellSorted/
+Epitopes/TcellVirBLAST/
+Epitopes/TcellVirSorted/
+Summer HW/
+SDSC_Epitopes/iedb_public.sql
+
+
+#Programs
+*.exe
+*.msi
+eclipse*
+Paint*

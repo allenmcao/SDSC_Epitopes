@@ -1,0 +1,36 @@
+CREATE OR REPLACE VIEW epi AS
+(SELECT DISTINCT e.epitope_id
+FROM tcell t, 
+mhc_allele_restriction mar, 
+curated_epitope ce, 
+object o, 
+epitope_object eo, 
+epitope e
+WHERE mar.DISPLAYED_RESTRICTION = t.MHC_ALLELE_NAME
+AND t.CURATED_EPITOPE_ID = ce.CURATED_EPITOPE_ID
+AND o.OBJECT_ID = ce.E_OBJECT_ID
+AND o.OBJECT_ID = eo.OBJECT_ID
+AND eo.EPITOPE_ID = e.EPITOPE_ID
+AND class = 'II'
+AND linear_peptide_seq IS NOT NULL);
+
+CREATE OR REPLACE VIEW pos AS 
+(SELECT DISTINCT e.epitope_id
+FROM tcell t, 
+mhc_allele_restriction mar, 
+curated_epitope ce, 
+object o, 
+epitope_object eo, 
+epitope e
+WHERE mar.DISPLAYED_RESTRICTION = t.MHC_ALLELE_NAME
+AND t.CURATED_EPITOPE_ID = ce.CURATED_EPITOPE_ID
+AND o.OBJECT_ID = ce.E_OBJECT_ID
+AND o.OBJECT_ID = eo.OBJECT_ID
+AND eo.EPITOPE_ID = e.EPITOPE_ID
+AND class = 'II'
+AND linear_peptide_seq IS NOT NULL
+AND as_char_value LIKE 'Positive%');
+
+SELECT (SELECT COUNT(*) FROM pos) AS Positives, COUNT(*) AS Negatives
+FROM epi
+WHERE epi.epitope_id NOT IN (SELECT pos.epitope_id FROM pos)
